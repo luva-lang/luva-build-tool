@@ -1,0 +1,53 @@
+lbs-version: '0.0.1'
+
+type: 'application'
+version: '0.0.1-alpha'
+description: 'luva build tool'
+authors: [ 'Luca Lewin' ]
+languages: [ 'c' ]
+
+dependencies: {
+
+}
+
+# -------------------------------- Fields --------------------------------
+
+binary_name = 'luva'
+
+src_dir = 'src'
+inc_dir = 'inc'
+obj_dir = 'obj'
+bin_dir = 'bin'
+
+target_binary = '{bin_dir}/{binary_name}'
+
+# -------------------------------- Tasks --------------------------------
+
+task run() {
+	build()
+	exec(binary_name)
+}
+
+task build() {
+	exec('make build')
+}
+
+task clean() {
+	# remove object and binary files
+	exec('rm -rf {obj_dir}/* {target_binary} {bin_dir}/*')
+}
+
+task rebuild() {
+	clean()
+	build()
+}
+
+task install() {
+	# copy binary to bin directory
+	exec('cp {target_binary} /usr/bin')
+}
+
+task uninstall() {
+	# remove binary from bin directory
+	exec('rm /usr/bin/{binary_name}')
+}
